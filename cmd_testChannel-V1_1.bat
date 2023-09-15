@@ -24,18 +24,7 @@ if %errorlevel% neq 0 (
     echo pyserial installed successfully.
 )
 
-REM Check if tkinter package is installed
-python -c "import tkinter" > nul 2>&1
-if %errorlevel% neq 0 (
-    echo Installing tkinter...
-    pip install tk
-    if %errorlevel% neq 0 (
-        echo Failed to install tkinter. Exiting...
-        exit /b 1
-    )
-    echo tkinter installed successfully.
-)
 
-REM Run guiTest.py
-echo Running guiTest.py...
-python guiTest.py
+REM Run serialTest.py
+echo Running serialTest.py...
+python serialTest.py

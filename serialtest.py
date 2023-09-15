@@ -56,7 +56,7 @@ def sendTX(message):
     
 XORvar = 1111
 
-while(input("Devam etmek için enter, çıkmak için exit yazınız: ") != "exit"):
+while(input("Devam etmek için enter, çıkmak için exit yazınız ") != "exit"):
     sendTX("<C00000001:0000>")
     recieve1 = sendTX("<C00000001?>")
     sendTX("<C00000001:"+str(hex(int("0x"+recieve1.split(":")[1][:-1], 16) ^ XORvar)).upper()[2:]+">")
