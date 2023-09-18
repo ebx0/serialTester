@@ -101,7 +101,7 @@ def port_init():
 
     selected_port = 0
     port_output_message = ""
-    if ports != None:
+    try:
         for port, desc, hwid in sorted(ports):
             if "CH340" in desc:
                 selected_port = port
@@ -115,7 +115,7 @@ def port_init():
                 refresh_ports()
         elif ports:
             for port, desc, hwid in sorted(ports):
-                port_output_message += "Otomatik port bulundu:\n\n"
+                port_output_message += f"Otomatik port bulundu: {port}\n\n"
                 if port == selected_port:
                     port_output_message += f"Port: {port}\n"
                     port_output_message += f"Description: {desc}\n"
@@ -129,9 +129,8 @@ def port_init():
             baudrate=9600,
             timeout=0.1
             )
-    else:
-        port_output_message += "PORT BULUNAMADI - HATA\n\n"
-        
+    except Exception as e:
+        port_output_message = f"PORT BULUNAMADI - HATA \n\n"
     port_output.config(text=port_output_message)
 
 def sendTX(message):
@@ -155,7 +154,6 @@ XORvar = 1111
 loop_running = False
 
 def start_loop(first, slave):
-    port_init()
     global loop_running
 
     try:# Open the serial port
