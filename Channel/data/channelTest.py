@@ -117,8 +117,9 @@ def main():
                         refresh_ports()
                 elif ports:
                     for port, desc, hwid in sorted(ports):
-                        port_output_message += f"Otomatik port bulundu: {port}\n\n"
+                        port_output_message += f"Port bulundu: {port}\n"
                         if port == selected_port:
+                            port_output_message += f"PORT OTOMATİK SEÇİLDİ {port}\n\n"
                             port_output_message += f"Port: {port}\n"
                             port_output_message += f"Description: {desc}\n"
                             port_output_message += f"Hardware ID: {hwid}\n\n"
