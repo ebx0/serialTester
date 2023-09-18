@@ -102,51 +102,40 @@ def port_init():
     selected_port = 0
     port_output_message = ""
     try:
-        for port, desc, hwid in sorted(ports):
-            if "CH340" in desc:
-                selected_port = port
+        if ports != None:
+            for port, desc, hwid in sorted(ports):
+                if "CH340" in desc:
+                    selected_port = port
 
-        if selected_port == 0:
-            port_output_message += "PORT LISTESI - BIR PORT SECINIZ "
-            for port, desc, hwid in sorted(ports):
-                port_output_message += f"Port: {port}\n"
-                port_output_message += f"Description: {desc}\n"
-                port_output_message += f"Hardware ID: {hwid}\n"
-                refresh_ports()
-        elif ports:
-            for port, desc, hwid in sorted(ports):
-                port_output_message += f"Otomatik port bulundu: {port}\n\n"
-                if port == selected_port:
+            if selected_port == 0:
+                port_output_message += "PORT LISTESI - BIR PORT SECINIZ "
+                for port, desc, hwid in sorted(ports):
                     port_output_message += f"Port: {port}\n"
                     port_output_message += f"Description: {desc}\n"
-                    port_output_message += f"Hardware ID: {hwid}\n\n"
+                    port_output_message += f"Hardware ID: {hwid}\n"
+                    refresh_ports()
+            elif ports:
+                for port, desc, hwid in sorted(ports):
+                    port_output_message += f"Port bulundu: {port}\n"
+                    if port == selected_port:
+                        port_output_message += f"PORT OTOMATİK SEÇİLDİ {port}\n\n"
+                        port_output_message += f"Port: {port}\n"
+                        port_output_message += f"Description: {desc}\n"
+                        port_output_message += f"Hardware ID: {hwid}\n\n"
+            else:
+                port_output_message += "PORT BULUNAMADI - HATA\n\n"
+
+            global ser 
+            ser = serial.Serial(
+                port=selected_port,
+                baudrate=9600,
+                timeout=0.1
+                )
         else:
             port_output_message += "PORT BULUNAMADI - HATA\n\n"
-
-        global ser 
-        ser = serial.Serial(
-            port=selected_port,
-            baudrate=9600,
-            timeout=0.1
-            )
     except Exception as e:
-        port_output_message = f"PORT BULUNAMADI - HATA \n\n"
+        port_output_message = f"PORT BULUNAMADI - HATA \n {e}\n\n"
     port_output.config(text=port_output_message)
-
-def sendTX(message):
-    try:
-        ser.write(message.encode())
-        print(f"    [TX] >>> {message}")
-        
-        # RX
-        received_data = ser.readline().decode().strip()
-
-        if received_data:
-            print(f"<<< [RX]     {received_data}")
-            return received_data
-
-    except Exception as e:
-        print(f"Error: {e}")
         
 port_init()
 XORvar = 1111
