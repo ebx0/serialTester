@@ -136,7 +136,22 @@ def port_init():
     except Exception as e:
         port_output_message = f"PORT BULUNAMADI - HATA \n {e}\n\n"
     port_output.config(text=port_output_message)
-        
+
+def sendTX(message):
+    try:
+        ser.write(message.encode())
+        print(f"    [TX] >>> {message}")
+
+        # RX
+        received_data = ser.readline().decode().strip()
+
+        if received_data:
+            print(f"<<< [RX]     {received_data}")
+            return received_data
+
+    except Exception as e:
+        print(f"Error: {e}")
+
 port_init()
 XORvar = 1111
 
