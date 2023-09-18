@@ -206,7 +206,7 @@ def run_loop():
         sensorData = sensorReturn.split(":")[1][:-1]
         for i in range(0,len(sensorData)):
             if sensorData[i] == "1":
-                leds[i].config(bg="green")
+                leds[i].config(bg="#30db00")
         for i in range(0,16):
             if i >= len(sensorData):
                 leds[i].config(bg="gray")
